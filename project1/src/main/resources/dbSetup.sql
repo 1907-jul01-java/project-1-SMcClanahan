@@ -6,11 +6,11 @@ create schema api
 
 create table api.logins(
     id serial primary key,
-    userName varchar not null unique,
-    pass varchar not null,
+    userName varchar,
+    pass varchar,
     firstName varchar,
     lastName varchar,
-    accountType int not null
+    accountType int default 0
 );
 
 create table api.requests(
@@ -21,11 +21,13 @@ create table api.requests(
 );
 
 insert into api.logins (userName, pass, accountType) values ('Sean', 'sean', 1);
+insert into api.logins (username, pass) values ('Luft','luft');
 create role web_anon nologin;
 create role authenticator noinherit login password 'password';
 grant usage on schema api to web_anon;
-grant select on api.logins, api.requests to web_anon;
+grant all on api.logins, api.requests to web_anon;
 grant web_anon to authenticator;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA api TO web_anon;
 
 create role todo_user nologin;
 grant todo_user to authenticator;
@@ -33,3 +35,5 @@ grant todo_user to authenticator;
 grant usage on schema api to todo_user;
 grant all on api.logins, api.requests to todo_user;
 grant usage, select on sequence api.logins_id_seq to todo_user;
+
+select * from api.logins where id = 2;

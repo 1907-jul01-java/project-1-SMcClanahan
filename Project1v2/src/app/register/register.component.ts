@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RegisterService } from '../register.service';
 
 @Component({
   selector: 'app-register',
@@ -9,9 +10,10 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-
+  submitted = false;
+  registerResponse = "null";
   constructor(private FormBuilder: FormBuilder,
-    private router: Router) { }
+    private router: Router, private RegisterService: RegisterService) { }
 
   ngOnInit() {
     this.registerForm = this.FormBuilder.group({
@@ -21,7 +23,16 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
   });
   }
+
+  get f() { return this.registerForm.controls; }
+
 onSubmit(){
-  
+  this.submitted = true;
+  if(this.registerForm.invalid){
+    return;
+  }
+  console.log(this.f.password);
+  this.registerResponse = this.RegisterService.Register(this.f.username.value, this.f.password.value, this.f.firstName.value, this.f.lastName.value);
+  console.log(this.registerResponse);
 }
 }

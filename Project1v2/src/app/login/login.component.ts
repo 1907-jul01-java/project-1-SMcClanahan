@@ -47,8 +47,12 @@ export class LoginComponent implements OnInit {
    //this.demo = "onclick works";
    this.submitted = true;
    //window.alert('works');
+   if(this.loginForm.invalid){
+     return;
+   }
    console.log("submitted");
    console.log(this.submitted);
+   console.log(this.f.username);
     this.loading = true;
    this.loginResponse = this.LoginService.login(this.f.username.value, this.f.password.value);
    console.log(this.loginResponse);
