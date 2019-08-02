@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { XMLServiceService } from './xmlservice.service';
 import { stringify } from 'querystring';
+import { Router } from '@angular/router';
 
 
 
@@ -11,19 +12,25 @@ export class LoginService {
   user: any;
   err: string;
   loginUrl: string;
-  constructor(private XMLServiceService :XMLServiceService ) { }
+  
+  
+  constructor(private XMLServiceService :XMLServiceService, private router: Router ) { }
 
-login(username, password) {
-  this.loginUrl = ('http://localhost:3000/logins?and=(username.eq.' + username + ',pass.eq.' + password + ')');
+login(Username, Password) {
+  this.loginUrl = ('http://localhost:3000/logins?and=(username.eq.' + Username + ',pass.eq.' + Password + ')');
   console.log(this.loginUrl);
-  this.user = this.XMLServiceService.getXML(this.loginUrl);
-  if((this.user = username)){
-  localStorage.setItem('currentUser', JSON.stringify(this.user));
-  return this.user;
-  }
-  else{
-    console.log('login failed');
-  }
+  this.XMLServiceService.getXML(this.loginUrl).then(function(Obj){
+    console.log(Obj);
+    localStorage.setItem("user", JSON.stringify(Obj));
+    return Obj;
+  }, function(error){
+      window.alert('Login failed');
+    }
+    
+    // console.log(response[1].username);
+    // console.log(response[0].pass);
+      
+  );
 }
 
 getall(){
@@ -41,4 +48,3 @@ getall(){
 
 
 }
-

@@ -10,26 +10,40 @@ export class XMLServiceService {
   constructor() { }
 
   getXML(URL: string){
-    var xhttp = new XMLHttpRequest();
+    
     var spec = 'username';
     var jsonData;
-    xhttp.withCredentials = true;
-    xhttp.onreadystatechange = function(response){
-      if(this.status == 200){
-        if(this.readyState == 4){
-        jsonData = JSON.parse(xhttp.response);
-        
+
+    return new Promise(function(resolve,reject){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onload = function(){
+        if(this.status == 200){
+         var Obj = JSON.parse(xhttp.response);
+          resolve(Obj);
+        }
+        else{
+          reject(console.error(xhttp.statusText));
         }
       }
-      else if (this.status >= 400){
-        console.log(this.status);
-        return this.status;
-      }
-      console.log(jsonData);
-        return jsonData;
-    }
-    xhttp.open("GET", URL, true);
+      xhttp.open("GET", URL, false);
       xhttp.send();
+    });
+    // xhttp.onreadystatechange = function(response){
+    //   if(this.status == 200){
+    //     if(this.readyState == 4){
+    //     jsonData = JSON.parse(xhttp.response);
+        
+    //     }
+    //   }
+    //   else if (this.status >= 400){
+    //     console.log(this.status);
+    //     return this.status;
+    //   }
+    //   console.log(jsonData);
+    //     return jsonData;
+    // }
+    // xhttp.open("GET", URL, false);
+    //   xhttp.send();
       
   }
 
@@ -63,3 +77,13 @@ export class XMLServiceService {
   // }));
   }
 }
+
+export interface logins{
+  id: number;
+  username: string;
+  pass: string;
+  firstname: string;
+  lastname: string;
+  accounttype: number;
+}
+

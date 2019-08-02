@@ -34,5 +34,7 @@ onSubmit(){
   console.log(this.f.password);
   this.registerResponse = this.RegisterService.Register(this.f.username.value, this.f.password.value, this.f.firstName.value, this.f.lastName.value);
   console.log(this.registerResponse);
+  window.alert('Registration Successful, Please Login');
+  this.router.navigate(['/login']);
 }
 }
