@@ -11,17 +11,23 @@ export class XMLServiceService {
   getXML(URL: string){
     var xhttp = new XMLHttpRequest();
     var spec = 'username';
+    var jsonData;
     xhttp.onreadystatechange = function(response){
       if(this.status == 200){
-        var jsonData = JSON.parse(xhttp.response);
-        console.log(jsonData);
-        return jsonData;
+        if(this.readyState == 4){
+        jsonData = JSON.parse(xhttp.response);
+        
+        }
       }
       else if (this.status >= 400){
         console.log(this.status);
+        return this.status;
       }
+      console.log(jsonData);
+        return jsonData;
     }
     xhttp.open("GET", URL, true);
       xhttp.send();
+      
   }
 }

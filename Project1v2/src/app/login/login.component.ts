@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   demo: string;
   //login: Login;
   submitted = false;
+  loginResponse = "null";
+  loading = false;
 
 
   get f() { return this.loginForm.controls; }
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
   });
     this.demo = 'startup';
+    this.LoginService.getall();
 
     
     
@@ -41,13 +44,14 @@ export class LoginComponent implements OnInit {
   onSubmit(){
    //todo
    //this.showLogin();
-   this.demo = "onclick works";
+   //this.demo = "onclick works";
    this.submitted = true;
-   window.alert('works');
+   //window.alert('works');
    console.log("submitted");
    console.log(this.submitted);
-
-   this.XMLServiceService.getXML(this.LoginService.loginUrl);
+    this.loading = true;
+   this.loginResponse = this.LoginService.login(this.f.username.value, this.f.password.value);
+   console.log(this.loginResponse);
    //this.LoginService.getLogins();
 
   //  this.LoginService.login(this.f.username.value, this.f.password.value)
