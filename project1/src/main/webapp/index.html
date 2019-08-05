@@ -8,17 +8,16 @@
 <body>
     <div id="loginForm">
         <h1>Login In</h1>
-        <form onsubmit="Login()">
+        
             <label for="username">username:</label>
             <input id="username" type="text" name="username" placeholder="username">
             <label for="password">password:</label>
-            <input id="password" type="password" name="password" placeholder="password">
+            <input id="password" type="text" name="password" placeholder="password">
             </br>
-            <input type="submit" value="Submit">
+            <button onclick="Login()"> LogIn</button>
             <input type="reset">
-            <a href="http://localhost:8080/project1/register.html">Register</a>
-        </form>
-        <p>{{$username}}</p>
+            <a href="http://localhost:8080/project1//v1/register.html">Register</a>
+        
     </div>
 
     <script src="app.js"></script>

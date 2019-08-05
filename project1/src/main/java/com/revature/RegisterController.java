@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -15,46 +16,34 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.revature.requests.*;
 import com.revature.*;
+import com.revature.login.loginDAO;
+import com.revature.login.Login;
+import com.revature.ConnectionUtil;
 
 /**
  * LoginController
  *
  * 
  */
-@Path(value = "requests")
+@Path(value = "register")
 public class RegisterController {
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Requests> getAllRequestsJSON() {
-		List<Requests> requests = null;
+	public void doPost(HttpServletRequest req, HttpServletResponse response)
+	throws IOException{
+			String username = req.getParameter("username");
+			String password = req.getParameter("password");
+			String firstname = req.getParameter("firstname");
+			String lastname = req.getParameter("lastname");
+			System.out.println(username);
+			 try{
+				 ConnectionUtil con = new ConnectionUtil();
+				 loginDAO register = new loginDAO(con.getConnection());
+				 Login registerinfo = new Login(username, password, firstname, lastname);
+				 register.insert(registerinfo);
 
-		try (Connection connection = new ConnectionUtil().getConnection()) {
-			requestsDAO dao = new requestsDAO(connection);
-			requestService service = new requestService(dao);
-			requests = service.getAll();
-		} catch (SQLException e) {
+		} catch(NullPointerException e){
 			e.printStackTrace();
 		}
-
-		return requests;
-	}
-
-	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_HTML)
-	public void insertRequest(@FormParam("id") int id, @FormParam("descriptor") String descriptor,@FormParam("amount") double amount, @FormParam("image") String image,
-			@Context HttpServletResponse resp) throws IOException {
-		try (Connection connection = new ConnectionUtil().getConnection()) {
-			requestsDAO dao = new requestsDAO(connection);
-			requestService service = new requestService(dao);
-			service.insert(new Requests(id, descriptor, amount, image ));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		resp.sendRedirect("/requests-api");
-	}
+}
 }

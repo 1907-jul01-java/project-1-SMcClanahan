@@ -20,10 +20,10 @@ public class requestsDAO implements DAO<Requests> {
     @Override
     public void insert(Requests request) {
         try {
-            PreparedStatement pStatement = connection.prepareStatement("insert into requests(amount, descriptor, image) values(?, ?, ?)");
+            PreparedStatement pStatement = connection.prepareStatement("insert into requests(amount, descriptor, id) values(?, ?, ?)");
             pStatement.setDouble(1, request.getAmount());
             pStatement.setString(2, request.getDescriptor());
-            pStatement.setString(3, request.getImage());
+            pStatement.setInt(3, request.getId());
             pStatement.executeUpdate();
         } catch (SQLException e) {
 
@@ -31,9 +31,9 @@ public class requestsDAO implements DAO<Requests> {
     }
 
     @Override
-    public List<Requests> getAll() {
+    public ArrayList<Requests> getAll() {
         Requests request;
-        List<Requests> requests = new ArrayList<>();
+        ArrayList<Requests> requests = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from requests");

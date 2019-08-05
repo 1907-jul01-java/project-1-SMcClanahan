@@ -27,37 +27,46 @@ function updateRequestElement() {
     requestElement.innerHTML = ListRequest(requests);
 }
 
+function getRequests() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', 'http://localhost:8080/project1/v1/requests');
+    xhr.onload = function () {
+        requests = JSON.parse(xhr.responseText);
+        updateRequestElement();
+    };
+    xhr.send();
+}
+
 function Login() {
-    sessionStorage.setItem("username", document.getElementById('username').value);
-    var username = sessionStorage.getItem("username");
+    var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-    console.log('username:' + username);
-    console.log(password);
-    let xhttp = new XMLHttpRequest();
-    xhttp.open('get', 'http://localhost:3000/logins');
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                login = xhttp.responseText;
-                console.log('hello');
-                console.log(login);
-                for(var i; i < login.length(); i++) {
-                    if (login[i].username == username) {
-                        if (login[i].password == password) {
-                            //return(<p>Logged in</p>);
-                            console.log('logged in');
-                            //window.location.href = "http://localhost:8080/project1";
-                        }
-                        else {
-                            console.log('invalid password');
-                        }
-                    }
-                    else {
-                        console.log('invalid username');
-                    }
+    var info = "username=" + username + "&password=" + password;
+    let xhr = new XMLHttpRequest();
+    xhr.open('post', 'http://localhost:8080/project1/v1/logins', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+            if (xhr.responseText == 'invalidUser') {
+                return '<p>Invalid Username</p>';
+            }
+            else if (xhr.responseText == 'invalidPass') {
+                return '<p>Invalid Password</p>';
+            }
+            else {
+                var result = JSON.parse(xhr.responseText);
+                sessionStorage.setItem('username', result.username);
+                sessionStorage.setItem('firstname', result.firstname);
+                sessionStorage.setItem('lastname', result.lastname);
+                sessionStorage.setItem('id', result.id);
+                console.log(result);
+                window.location.href = "http://localhost:8080/project1/requests.html";
             }
         }
-};
-xhttp.send();
+
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(encodeURI(info));
+
 }
 
 function Register() {
@@ -70,7 +79,7 @@ function Register() {
     };
 
     let xhttp = new XMLHttpRequest();
-    xhttp.open('post', 'http://localhost:3000/logins');
+    xhttp.open('post', 'http://localhost:8080/project1/v1/requests');
     xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send(registration);
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Request Landing Page</title>
+    </head>
+
+    <body onload="getRequests()">
+        <div id='Request-form'>
+            <h1>Add Reimbursement Request</h1>
+            <form action="http://localhost:8080/project1//v1/requests" method="post">
+            <label for="id"></label>
+            <div id="id" value="1" name="id"/>
+            <br>
+            <label for="descriptor">Description:</label>
+            <input id="descriptor" type="text" name="descriptor">
+            <br>
+            <label for="amount">Amount:</label>
+            <input id="amount" type="number" name="amount">
+            <br>
+            <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div onload="getRequests()" id="output">
+            <h2>Request List</h2>
+            <div id="requests"></div>
+        </div>
+        <script src='app.js'></script>
+    </body>
+</html>

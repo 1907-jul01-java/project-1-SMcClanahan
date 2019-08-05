@@ -1,6 +1,8 @@
 package com.revature;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -21,37 +23,40 @@ public class ConnectionUtil {
     private String password;
 
     public ConnectionUtil() {
-        try (InputStream input = new FileInputStream("src/main/java/com/revature/resources/connection.properties")){
-            Properties properties = new Properties();
-            properties.load(input);
+        try {
+            System.out.println("KennyWussy");
+            //Properties properties = new Properties();
+            //properties.load(new FileReader( new File(getClass().getClassLoader().getResource("project1/src/main/resources/connection.properties").getFile())));
             //properties.load(new FileReader("resources/connection.properties"));
-            this.url = properties.getProperty("url");
-            this.user = properties.getProperty("user");
-            this.password = properties.getProperty("password");
+            this.url = "jdbc:postgresql://localhost:5432/postgres";
+            this.user = "postgres";
+            this.password = "";
+            
             //System.out.println(this.url);
             //System.out.println(this.password);
             //System.out.println(this.user);
             try{        
-                Context initContext = new InitialContext();
-                Context envContext = (Context) initContext.lookup("java:/comp/env/jdbc/postgres");
-                dataSource = (DataSource) envContext.lookup("jdbc/postgres");
-                this.connection = dataSource.getConnection();
-                //DriverManager.getDriver(this.url);
-                //this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+                Class.forName("org.postgresql.Driver");
+                // Context initContext = new InitialContext();
+                // Context envContext = (Context) initContext.lookup("java:/comp/env/jdbc/postgres");
+                // dataSource = (DataSource) envContext.lookup("jdbc/postgres");
+                // this.connection = dataSource.getConnection();
+                
+                this.connection = DriverManager.getConnection(this.url, this.user, this.password);
             } catch(NullPointerException e){
                 e.getMessage();
-            }catch(NamingException e){
+                System.out.println(connection);
+            }catch(ClassNotFoundException e){
                 e.getMessage();
             }
             //PrintStream connectionInfo = DriverManager.getLogStream();
             //connectionInfo.print(connectionInfo);
         } catch(SQLException e){
             e.getMessage();
-        } catch(IOException e){
-            e.getMessage();
-        } catch(NullPointerException e){
+        }  catch(NullPointerException e){
             e.getMessage();
         }
+        System.out.println(connection);
 
     }
 

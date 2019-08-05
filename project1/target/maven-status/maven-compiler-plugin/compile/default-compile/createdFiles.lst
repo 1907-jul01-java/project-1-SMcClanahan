@@ -6,6 +6,8 @@ com/revature/login/loginService.class
 com/revature/ConnectionUtil.class
 com/revature/requests/requestService.class
 com/revature/RegisterController.class
+com/revature/TrySQL.class
 com/revature/requests/Requests.class
+com/revature/RequestController.class
 com/revature/Service.class
 com/revature/DAO.class

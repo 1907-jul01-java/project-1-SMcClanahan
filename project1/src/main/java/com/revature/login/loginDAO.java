@@ -10,14 +10,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class loginDAO implements DAO<Login> {
+public class loginDAO {
     Connection connection;
     
     public loginDAO(Connection connection) {
         this.connection = connection;
     }
 
-    @Override
+
     public void insert(Login login) {
         try {
             PreparedStatement pStatement = connection.prepareStatement("insert into logins(username, pass, firstname, lastname) values(?, ?, ?, ?)");
@@ -31,36 +31,38 @@ public class loginDAO implements DAO<Login> {
         }
     }
 
-    @Override
-    public List<Login> getAll() {
+
+    public ArrayList<Login> getAll() {
         Login login;
-        List<Login> logins = new ArrayList<>();
+        ArrayList<Login> logins = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from logins");
+            System.out.println(this.connection);
+            PreparedStatement pstatement = connection.prepareStatement("select * from logins");
+            ResultSet resultSet = pstatement.executeQuery();
             while (resultSet.next()) {
                 login = new Login();
                 login.setId(resultSet.getInt("id"));
                 login.setUsername(resultSet.getString("username"));
                 login.setFirstname(resultSet.getString("firstname"));
                 login.setLastname(resultSet.getString("lastname"));
+                System.out.println(resultSet.getString("lastname"));
                 logins.add(login);
             }
         } catch (SQLException e) {
 
-        // }catch  (NullPointerException e){
-        //     e.printStackTrace();
+        }catch  (NullPointerException e){
+            e.printStackTrace();
         }
         
         return logins;
     }
     //TODO update logic for the table
-    @Override
+    
     public void update() {
 
     }
 
-    @Override
+    
     public void delete() {
 
     }
