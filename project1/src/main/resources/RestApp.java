@@ -7,6 +7,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 @ApplicationPath("v1")
 public class RestApp extends ResourceConfig {
 	public RestApp() {
-		packages("./");
+		packages("com.revature");
 	}
 }

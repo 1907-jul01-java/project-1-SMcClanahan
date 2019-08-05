@@ -48,10 +48,13 @@ public class loginDAO implements DAO<Login> {
             }
         } catch (SQLException e) {
 
+        // }catch  (NullPointerException e){
+        //     e.printStackTrace();
         }
+        
         return logins;
     }
-
+    //TODO update logic for the table
     @Override
     public void update() {
 

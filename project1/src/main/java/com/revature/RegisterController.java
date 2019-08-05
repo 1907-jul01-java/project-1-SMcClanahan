@@ -1,4 +1,4 @@
-package com.revature.resources;
+package com.revature;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,7 +24,7 @@ import com.revature.*;
  * 
  */
 @Path(value = "requests")
-public class LoginController {
+public class RegisterController {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,7 +32,7 @@ public class LoginController {
 		List<Requests> requests = null;
 
 		try (Connection connection = new ConnectionUtil().getConnection()) {
-			requestDAO dao = new requestDAO(connection);
+			requestsDAO dao = new requestsDAO(connection);
 			requestService service = new requestService(dao);
 			requests = service.getAll();
 		} catch (SQLException e) {
@@ -45,12 +45,12 @@ public class LoginController {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_HTML)
-	public void insertRequest(@FormParam("id") String id, @FormParam("username") String username,@FormParam("password") String password, @FormParam("firstname") String firstname, @FormParam("lastname") String lastname,
+	public void insertRequest(@FormParam("id") int id, @FormParam("descriptor") String descriptor,@FormParam("amount") double amount, @FormParam("image") String image,
 			@Context HttpServletResponse resp) throws IOException {
 		try (Connection connection = new ConnectionUtil().getConnection()) {
-			requestDAO dao = new requestDAO(connection);
+			requestsDAO dao = new requestsDAO(connection);
 			requestService service = new requestService(dao);
-			service.insert(new Requests(0, username, password, firstname, lastname));
+			service.insert(new Requests(id, descriptor, amount, image ));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

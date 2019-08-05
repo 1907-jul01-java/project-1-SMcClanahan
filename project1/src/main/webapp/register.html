@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+</head>
+
+<body>
+    <div id="loginForm">
+        <h1>Please Register for an Account</h1>
+        <form action="http://localhost:8080/project1" onsubmit="Register()">
+            <label for="username">username:</label>
+            <input id="username" type="text" name="username" placeholder="username">
+            <label for="password">password:</label>
+            <input id="password" type="password" name="password" placeholder="password">
+            </br>
+            <label for="firstname">Firstname:</label>
+            <input id="firstname" type="text" name="firstname" placeholder="John/Jane">
+            <br>
+            <label for="lastname">Lastname:</label>
+            <input id="lastname" type="text" name="lastname" placeholder="Doe">
+            <input type="submit" value="Submit">
+            <input type="reset">
+            <a href="http://localhost:8080/project1">Cancel</a>
+        </form>
+    </div>
+
+    <script src= "app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Requests API</title>
+</head>
+
+<body>
+    <div id="loginForm">
+        <h1>Login In</h1>
+        <form onsubmit="Login()">
+            <label for="username">username:</label>
+            <input id="username" type="text" name="username" placeholder="username">
+            <label for="password">password:</label>
+            <input id="password" type="password" name="password" placeholder="password">
+            </br>
+            <input type="submit" value="Submit">
+            <input type="reset">
+            <a href="http://localhost:8080/project1/register.html">Register</a>
+        </form>
+        <p>{{$username}}</p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

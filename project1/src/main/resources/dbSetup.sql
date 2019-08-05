@@ -1,3 +1,4 @@
+drop table if exists logins, requests;
 drop table if exists api.logins, api.requests;
 drop schema if exists api;
 drop role if exists web_anon, todo_user, authenticator; 

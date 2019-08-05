@@ -8,8 +8,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 public class ConnectionUtil {
     private Connection connection;
+    private DataSource dataSource = null;
     private String url;
     private String user;
     private String password;
@@ -26,9 +32,15 @@ public class ConnectionUtil {
             //System.out.println(this.password);
             //System.out.println(this.user);
             try{        
-                DriverManager.getDriver(this.url);
-                this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+                Context initContext = new InitialContext();
+                Context envContext = (Context) initContext.lookup("java:/comp/env/jdbc/postgres");
+                dataSource = (DataSource) envContext.lookup("jdbc/postgres");
+                this.connection = dataSource.getConnection();
+                //DriverManager.getDriver(this.url);
+                //this.connection = DriverManager.getConnection(this.url, this.user, this.password);
             } catch(NullPointerException e){
+                e.getMessage();
+            }catch(NamingException e){
                 e.getMessage();
             }
             //PrintStream connectionInfo = DriverManager.getLogStream();
